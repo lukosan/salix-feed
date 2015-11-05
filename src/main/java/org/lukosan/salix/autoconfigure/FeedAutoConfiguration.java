@@ -2,6 +2,7 @@ package org.lukosan.salix.autoconfigure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.Servlet;
@@ -11,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.lukosan.salix.feed.SalixFeed;
 import org.lukosan.salix.feed.SalixFeedManager;
 import org.lukosan.salix.feed.SalixFeedProcessor;
+import org.lukosan.salix.feed.SalixFeedSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -32,13 +34,14 @@ public class FeedAutoConfiguration {
 		private static final Log logger = LogFactory.getLog(FeedConfiguration.class);
 
 		@Autowired(required=false)
-		private List<SalixFeed> feeds = new ArrayList<SalixFeed>();
+		private List<SalixFeedSource> feeders = new ArrayList<SalixFeedSource>();
 		
 		@Autowired(required=false)
 		private List<SalixFeedProcessor> processors = new ArrayList<SalixFeedProcessor>();
 
 		@Bean
 		public SalixFeedManager salixFeedManager() {
+			List<SalixFeed> feeds = feeders.stream().flatMap(f -> f.getFeeds().stream()).collect(Collectors.toList());
 			return new SalixFeedManager(feeds, processors);
 		}
 
