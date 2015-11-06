@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.Servlet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,9 +13,7 @@ import org.lukosan.salix.feed.SalixFeedManager;
 import org.lukosan.salix.feed.SalixFeedProcessor;
 import org.lukosan.salix.feed.SalixFeedSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,8 +23,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class FeedAutoConfiguration {
 
 	@Configuration
-	@ConditionalOnClass({ Servlet.class })
-	@ConditionalOnWebApplication
 	@EnableScheduling
 	public static class FeedConfiguration {
 		

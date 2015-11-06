@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.lukosan.salix.SalixHandlerMapping;
+import org.lukosan.salix.SalixPublisher;
 import org.lukosan.salix.SalixResource;
 import org.lukosan.salix.SalixService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class SalixFeedManager {
 	private SalixService salixService;
 	
 	@Autowired(required=false)
-	private SalixHandlerMapping salixHandlerMapping;
+	private SalixPublisher salixPublisher;
 	
 	private Map<SalixFeed, LocalDateTime> checkLog;	
 	private List<SalixFeedProcessor> processors;
@@ -56,8 +56,8 @@ public class SalixFeedManager {
 		
 		if(! resources.isEmpty() && ! processors.isEmpty()) {
 			processors.forEach(p -> p.process(resources, salixService));
-			if(null != salixHandlerMapping)
-				salixHandlerMapping.reloadHandlers();
+			if(null != salixPublisher)
+				salixPublisher.publish();
 		}
 	}
 }
