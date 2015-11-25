@@ -43,7 +43,7 @@ public class SalixFeedManager {
 		LocalDateTime checkTime = LocalDateTime.now();
 
 		if(logger.isDebugEnabled())
-			logger.debug("Tick: " + checkTime);
+			logger.debug("Tick: " + checkTime + "; Feed count: " + checkLog.size());
 
 		List<SalixResource> resources = new ArrayList<SalixResource>();
 		
